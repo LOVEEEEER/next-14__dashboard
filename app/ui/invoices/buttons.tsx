@@ -1,8 +1,10 @@
+'use server';
+
 import { deleteInvoice } from '@/app/lib/actions';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-export function CreateInvoice() {
+export async function CreateInvoice() {
   return (
     <Link
       href="/dashboard/invoices/create"
@@ -14,7 +16,7 @@ export function CreateInvoice() {
   );
 }
 
-export function UpdateInvoice({ id }: { id: string }) {
+export async function UpdateInvoice({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/invoices/${id}/edit`}
@@ -25,10 +27,11 @@ export function UpdateInvoice({ id }: { id: string }) {
   );
 }
 
-export function DeleteInvoice({ id }: { id: string }) {
+export async function DeleteInvoice({ id }: { id: string }) {
+  const bindedDeleteInvoice = deleteInvoice.bind(null, id);
   return (
     <>
-      <form action={() => deleteInvoice(id)}>
+      <form action={bindedDeleteInvoice}>
         <button className="rounded-md border p-2 hover:bg-gray-100">
           <span className="sr-only">Delete</span>
           <TrashIcon className="w-5" />
